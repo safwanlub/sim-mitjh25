@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'django_extensions'
     'rest_framework',
     'akademik.apps.AkademikConfig',  # <-- TAMBAHKAN BARIS INI
     'dashboard', 
