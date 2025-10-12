@@ -1,0 +1,42 @@
+export const kelasData = [
+  {
+    id: 1,
+    nama: "X IPA 1",
+    tingkat: "X",
+    jurusan: "IPA",
+    kapasitas: 32,
+    terisi: 30,
+  },
+  {
+    id: 2,
+    nama: "X IPA 2",
+    tingkat: "X",
+    jurusan: "IPA",
+    kapasitas: 32,
+    terisi: 28,
+  },
+  {
+    id: 3,
+    nama: "X IPS 1",
+    tingkat: "X",
+    jurusan: "IPS",
+    kapasitas: 32,
+    terisi: 25,
+  },
+  {
+    id: 4,
+    nama: "X IPS 2",
+    tingkat: "X",
+    jurusan: "IPS",
+    kapasitas: 32,
+    terisi: 27,
+  },
+  {
+    id: 5,
+    nama: "XI IPA 1",
+    tingkat: "XI",
+    jurusan: "IPA",
+    kapasitas: 32,
+    terisi: 29,
+  },
+];

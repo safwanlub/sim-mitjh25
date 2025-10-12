@@ -1,0 +1,42 @@
+export const siswaData = [
+  {
+    id: 1,
+    nis: "2024001",
+    nama: "Ahmad Fauzi",
+    kelas: "X IPA 1",
+    email: "ahmad@email.com",
+    telepon: "08123456789",
+  },
+  {
+    id: 2,
+    nis: "2024002",
+    nama: "Siti Nurhaliza",
+    kelas: "X IPA 1",
+    email: "siti@email.com",
+    telepon: "08123456790",
+  },
+  {
+    id: 3,
+    nis: "2024003",
+    nama: "Budi Santoso",
+    kelas: "X IPA 2",
+    email: "budi@email.com",
+    telepon: "08123456791",
+  },
+  {
+    id: 4,
+    nis: "2024004",
+    nama: "Dewi Lestari",
+    kelas: "X IPS 1",
+    email: "dewi@email.com",
+    telepon: "08123456792",
+  },
+  {
+    id: 5,
+    nis: "2024005",
+    nama: "Eko Prasetyo",
+    kelas: "X IPS 2",
+    email: "eko@email.com",
+    telepon: "08123456793",
+  },
+];
