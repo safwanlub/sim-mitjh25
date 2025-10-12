@@ -1,9 +1,17 @@
 from django.http import JsonResponse
+# Tambahin import model-model yang kita butuhkan
+from .models import Siswa, Guru, Kelas
 
 def get_stats(request):
+    # Ini adalah "sihir" Django ORM!
+    # .count() akan menghitung jumlah semua objek di tabel tersebut
+    total_siswa = Siswa.objects.count()
+    total_guru = Guru.objects.count()
+    total_kelas = Kelas.objects.count()
+
     data = {
-        'total_siswa': 1234,
-        'total_guru': 56,
-        'total_kelas': 12, # Aku isi dulu ya
+        'total_siswa': total_siswa,
+        'total_guru': total_guru,
+        'total_kelas': total_kelas,
     }
     return JsonResponse(data)
