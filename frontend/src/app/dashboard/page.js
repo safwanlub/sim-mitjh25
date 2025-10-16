@@ -8,6 +8,7 @@ export default function DashboardPage() {
     total_siswa: 0,
     total_guru: 0,
     total_kelas: 0,
+    total_mapel: 0,
   });
 
   // Siapkan status buat ngecek apakah data lagi di-load
@@ -59,6 +60,12 @@ export default function DashboardPage() {
           <h3 className="text-sm font-medium text-gray-500">Total Kelas</h3>
           <p className="text-3xl font-bold text-gray-900">
             {stats.total_kelas}
+          </p>
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow">
+          <h3 className="text-sm font-medium text-gray-500">Total Mapel</h3>
+          <p className="text-3xl font-bold text-gray-900">
+            {stats.total_mapel}
           </p>
         </div>
       </div>
