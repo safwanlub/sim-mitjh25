@@ -18,3 +18,11 @@ class Kelas(models.Model):
 
     def __str__(self):
         return self.nama
+    
+# ... (class Siswa, Guru, Kelas yang udah ada)
+
+class Mapel(models.Model):
+    nama = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nama
