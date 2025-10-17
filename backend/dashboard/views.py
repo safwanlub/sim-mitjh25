@@ -31,7 +31,7 @@ def get_siswa_list(request):
     # Kembalikan data dalam format JSON
     return Response(serializer.data)
 
-# TAMBAHKAN FUNGSI BARU INI
+# TAMBAHKAN FUNGSI TAMBAH
 @api_view(['POST']) # <-- Stikernya buat POST
 def add_siswa(request):
     # Ambil data 'nama' dari request body
@@ -53,3 +53,22 @@ def add_siswa(request):
     # Kembalikan response dengan data siswa baru dan status 201 (Created)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
     
+
+# TAMBAHKAN FUNGSI DELETE
+@api_view(['DELETE']) # <-- Stikernya buat DELETE
+def delete_siswa(request, pk):
+    # Cari siswa berdasarkan Primary Key (id)
+    try:
+        siswa = Siswa.objects.get(pk=pk)
+    except Siswa.DoesNotExist:
+        return Response(
+            {'error': 'Siswa tidak ditemukan.'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    # Hapus siswa dari database
+    siswa.delete()
+    
+    # Kembalikan response kosong dengan status 204 (No Content)
+    # Ini adalah standar untuk operasi hapus yang berhasil
+    return Response(status=status.HTTP_204_NO_CONTENT)
