@@ -72,3 +72,27 @@ def delete_siswa(request, pk):
     # Kembalikan response kosong dengan status 204 (No Content)
     # Ini adalah standar untuk operasi hapus yang berhasil
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+# ... (fungsi delete_siswa)
+
+# TAMBAHKAN FUNGSI edit INI
+@api_view(['PUT']) # <-- Stikernya buat PUT
+def update_siswa(request, pk):
+    # Cari siswa berdasarkan Primary Key (id)
+    try:
+        siswa = Siswa.objects.get(pk=pk)
+    except Siswa.DoesNotExist:
+        return Response(
+            {'error': 'Siswa tidak ditemukan.'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    # Ambil data 'nama' dari request body
+    serializer = SiswaSerializer(instance=siswa, data=request.data, partial=True)
+    
+    # Validasi dan simpan perubahan
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
