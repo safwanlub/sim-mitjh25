@@ -7,12 +7,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            // BENAR (pake prop dari Next.js)
             <Link href="/" className="flex items-center">
               <div className="h-8 w-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-                <span className="text-white text-sm font-bold">S</span>
+                <span className="text-white text-sm font-bold">
+                  SIM MADRASAH
+                </span>
               </div>
-              <h1 className="text-2xl font-bold text-gray-900">SIM Sekolah</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                MIT-JAM'IYYATIL HUDA
+              </h1>
             </Link>
           </div>
           <div className="flex items-center space-x-4">
