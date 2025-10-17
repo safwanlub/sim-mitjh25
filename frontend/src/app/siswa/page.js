@@ -1,92 +1,70 @@
-import React from "react";
-import Layout from "../../components/Layout";
-import FormSiswa from "../../components/FormSiswa";
-import TableSiswa from "../../components/TableSiswa";
-import { useSiswa } from "../../hooks/useSiswa";
+"use client";
+
+import { useState, useEffect } from "react";
+import Layout from "@/components/Layout";
 
 export default function SiswaPage() {
-  const {
-    siswa,
-    searchTerm,
-    setSearchTerm,
-    addSiswa,
-    updateSiswa,
-    deleteSiswa,
-  } = useSiswa();
+  // Ini adalah baris yang "mencetak" variabel isLoading
+  const [siswaList, setSiswaList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [editingSiswa, setEditingSiswa] = useState(null);
-  const [showForm, setShowForm] = useState(false);
+  // Ini adalah efek yang dijalankan sekali saat halaman dimuat
+  useEffect(() => {
+    const fetchSiswa = async () => {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/dashboard/siswa/"
+        );
+        const data = await response.json();
 
-  const handleAddSiswa = (siswaData) => {
-    addSiswa(siswaData);
-    setShowForm(false);
-  };
+        setSiswaList(data);
+      } catch (error) {
+        console.error("Gagal mengambil data siswa:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const handleEditSiswa = (siswaData) => {
-    updateSiswa(siswaData.id, siswaData);
-    setEditingSiswa(null);
-    setShowForm(false);
-  };
+    fetchSiswa();
+  }, []);
 
-  const handleDeleteSiswa = (id) => {
-    if (window.confirm("Apakah Anda yakin ingin menghapus siswa ini?")) {
-      deleteSiswa(id);
-    }
-  };
+  // Sekarang baris ini tidak akan error lagi, karena isLoading sudah didefinisikan
+  if (isLoading) {
+    return <div>Loading data siswa...</div>;
+  }
 
   return (
     <Layout>
-      <div className="mb-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              Manajemen Siswa
-            </h1>
-            <p className="text-gray-600">Kelola data siswa sekolah</p>
-          </div>
-          <button
-            onClick={() => {
-              setEditingSiswa(null);
-              setShowForm(true);
-            }}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-          >
-            Tambah Siswa
-          </button>
+      <div>
+        <h1 className="text-2xl font-bold mb-4">Data Siswa</h1>
+
+        <div className="bg-white shadow rounded-lg p-4">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Nama Siswa
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {siswaList.map((siswa) => (
+                <tr key={siswa.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {siswa.id}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {siswa.nama}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
-
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Cari siswa..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full md:w-64 px-4 py-2 border border-gray-300 rounded-lg"
-        />
-      </div>
-
-      {showForm && (
-        <div className="mb-6">
-          <FormSiswa
-            siswa={editingSiswa}
-            onSubmit={editingSiswa ? handleEditSiswa : handleAddSiswa}
-            onCancel={() => {
-              setShowForm(false);
-              setEditingSiswa(null);
-            }}
-          />
-        </div>
-      )}
-
-      <TableSiswa
-        siswa={siswa}
-        onEdit={(siswa) => {
-          setEditingSiswa(siswa);
-          setShowForm(true);
-        }}
-        onDelete={handleDeleteSiswa}
-      />
     </Layout>
   );
 }

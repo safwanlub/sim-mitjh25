@@ -30,6 +30,12 @@ export default function Sidebar() {
       <Link href="/users" className={pathname === "/users" ? "active" : ""}>
         Users
       </Link>
+      <Link href="/siswas" className={pathname === "/siswas" ? "active" : ""}>
+        Data Siswa
+      </Link>
+      <Link href="/gurus" className={pathname === "/gurus" ? "active" : ""}>
+        Data Guru
+      </Link>
     </nav>
   );
 }
