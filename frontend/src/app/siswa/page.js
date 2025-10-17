@@ -75,6 +75,36 @@ export default function SiswaPage() {
     }
   };
 
+  // TAMBAHKAN FUNGSI BARU UNTUK MENGHAPUS DATA
+  const handleDelete = async (siswaId) => {
+    // Tampilkan dialog konfirmasi
+    const isConfirmed = window.confirm(
+      "Apakah yakin ingin menghapus data siswa ini?"
+    );
+    if (!isConfirmed) {
+      return; // User batal, nggak jadi hapus
+    }
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/dashboard/siswa/${siswaId}/delete/`,
+        {
+          method: "DELETE", // Penting: method-nya DELETE
+        }
+      );
+
+      if (response.ok) {
+        // Berhasil hapus! Hapus item dari state tanpa refresh
+        setSiswaList(siswaList.filter((siswa) => siswa.id !== siswaId));
+      } else {
+        // Handle error
+        alert("Gagal menghapus siswa.");
+      }
+    } catch (error) {
+      alert("Gagal menghapus siswa. Cek koneksi.");
+    }
+  };
+
   if (isLoading) {
     return <div>Loading data siswa...</div>;
   }
@@ -122,6 +152,10 @@ export default function SiswaPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Nama Siswa
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Aksi
+                </th>{" "}
+                {/* <-- TAMBAHKAN HEADER UNTUK TOMBOL */}
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -132,6 +166,15 @@ export default function SiswaPage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {siswa.nama}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    {/* TAMBAHKAN TOMBOL HAPUS DI SINI */}
+                    <button
+                      onClick={() => handleDelete(siswa.id)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      Hapus
+                    </button>
                   </td>
                 </tr>
               ))}
