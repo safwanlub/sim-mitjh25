@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'akademik.apps.AkademikConfig',  # <-- TAMBAHKAN BARIS INI
+    'django_extensions',
     'dashboard', 
 ]
 

@@ -22,7 +22,7 @@ def get_stats(request):
     }
     return JsonResponse(data)
 
-@api_view(['GET']) # <-- TAMBAHKAN STIKER INI
+@api_view(['GET']) # <-- FUNGSI SISWA
 def get_siswa_list(request):
     # Ambil semua objek Siswa dari database
     siswa_list = Siswa.objects.all()
@@ -95,4 +95,76 @@ def update_siswa(request, pk):
         serializer.save()
         return Response(serializer.data)
     else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET']) # <-- FUNGSI GURU
+def get_guru_list(request):
+    guru_list = Guru.objects.all()
+    data = [{'id': guru.id, 'nama': guru.nama} for guru in guru_list]
+    return Response(data)
+
+# TAMBAHKAN FUNGSI TAMBAH
+@api_view(['POST']) # <-- Stikernya buat POST
+def add_guru(request):
+    # Ambil data 'nama' dari request body
+    nama = request.data.get('nama')
+    
+    # Validasi sederhana: pastikan nama tidak kosong
+    if not nama:
+        return Response(
+            {'error': 'Nama guru tidak boleh kosong.'}, 
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Buat objek Guru baru di database
+    guru = Guru.objects.create(nama=nama)
+    
+    # Siapkan serializer buat mengembalikan data yang baru dibuat
+    # serializer = GuruSerializer(guru, many=False)
+    
+    # Kembalikan response dengan data siswa baru dan status 201 (Created)
+    return Response(status=status.HTTP_201_CREATED)
+    
+
+# TAMBAHKAN FUNGSI DELETE
+@api_view(['DELETE']) # <-- Stikernya buat DELETE
+def delete_guru(request, pk):
+    # Cari guru berdasarkan Primary Key (id)
+    try:
+        guru = Guru.objects.get(pk=pk)
+    except Guru.DoesNotExist:
+        return Response(
+            {'error': 'Guru tidak ditemukan.'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    # Hapus guru dari database
+    guru.delete()
+    
+    # Kembalikan response kosong dengan status 204 (No Content)
+    # Ini adalah standar untuk operasi hapus yang berhasil
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+# ... (fungsi delete_guru)
+
+# TAMBAHKAN FUNGSI edit INI
+@api_view(['PUT']) # <-- Stikernya buat PUT
+def update_guru(request, pk):
+    # Cari guru berdasarkan Primary Key (id)
+    try:
+        guru = Guru.objects.get(pk=pk)
+    except Guru.DoesNotExist:
+        return Response(
+            {'error': 'Guru tidak ditemukan.'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )
+    
+    # Ambil data 'nama' dari request body
+    # serializer = GuruSerializer(instance=guru, data=request.data, partial=True)
+    
+    # Validasi dan simpan perubahan
+    # if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    # else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
