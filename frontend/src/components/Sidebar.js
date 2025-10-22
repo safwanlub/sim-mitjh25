@@ -30,10 +30,21 @@ export default function Sidebar() {
       <Link href="/users" className={pathname === "/users" ? "active" : ""}>
         Users
       </Link>
-      <Link href="/siswas" className={pathname === "/siswas" ? "active" : ""}>
+      <Link
+        href="/siswa"
+        className={`... ${
+          pathname === "/siswa" ? "bg-blue-500 text-white" : "..."
+        }`}
+      >
         Data Siswa
       </Link>
-      <Link href="/gurus" className={pathname === "/gurus" ? "active" : ""}>
+      {/* TAMBAHKAN LINK INI */}
+      <Link
+        href="/guru"
+        className={`... ${
+          pathname === "/guru" ? "bg-blue-500 text-white" : "..."
+        }`}
+      >
         Data Guru
       </Link>
     </nav>
