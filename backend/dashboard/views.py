@@ -174,3 +174,33 @@ def update_guru(request, pk):
         return Response(data)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# TAMBAHKAN FUNGSI INI
+@api_view(['GET'])
+def get_kelas_list(request):
+    kelas_list = Kelas.objects.all().order_by('tingkat', 'nama_kelas')
+    
+    # Ubah data ke format JSON
+    data = []
+    for kelas in kelas_list:
+        data.append({
+            'id': kelas.id, 
+            'nama_kelas': kelas.nama_kelas, 
+            'tingkat': kelas.tingkat,
+            'display_name': str(kelas) # Ini akan menghasilkan "Kelas 1 A"
+        })
+        
+    return Response(data)
+
+@api_view(['POST'])
+def add_kelas(request):
+    nama_kelas = request.data.get('nama_kelas')
+    tingkat = request.data.get('tingkat')
+    
+    if not nama_kelas or not tingkat:
+        return Response({'error': 'Nama kelas dan tingkat tidak boleh kosong.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    kelas = Kelas.objects.create(nama_kelas=nama_kelas, tingkat=tingkat)
+    
+    data = {'id': kelas.id, 'nama_kelas': kelas.nama_kelas, 'tingkat': kelas.tingkat, 'display_name': str(kelas)}
+    return Response(data, status=status.HTTP_201_CREATED)
