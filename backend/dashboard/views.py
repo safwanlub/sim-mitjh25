@@ -162,9 +162,15 @@ def update_guru(request, pk):
     # Ambil data 'nama' dari request body
     # serializer = GuruSerializer(instance=guru, data=request.data, partial=True)
     
-    # Validasi dan simpan perubahan
-    # if serializer.is_valid():
+    # Ambil data 'nama' dari request body
+    serializer = SiswaSerializer(instance=guru, data=request.data, partial=True)
+    
+    if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data)
-    # else:
+        # Karena kita nggak punya serializer untuk Guru, kita bikin manual
+        guru.nama = request.data.get('nama', guru.nama)
+        guru.save()
+        data = {'id': guru.id, 'nama': guru.nama}
+        return Response(data)
+    else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

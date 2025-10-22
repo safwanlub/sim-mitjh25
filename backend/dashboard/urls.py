@@ -12,5 +12,5 @@ urlpatterns = [
     path('guru/', views.get_guru_list, name='guru-list'),
     path('guru/add/', views.add_guru, name='add-guru'),
     path('guru/<int:pk>/delete/', views.delete_guru, name='delete-guru'),
-    path('guru/<int:pk>/update/', views.update_guru, name='update-guru'), 
+    path('guru/<int:pk>/update/', views.update_guru, name='update-guru'),
 ]
