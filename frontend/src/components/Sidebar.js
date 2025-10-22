@@ -47,6 +47,14 @@ export default function Sidebar() {
       >
         Data Guru
       </Link>
+      <Link
+        href="/kelas"
+        className={`... ${
+          pathname === "/kelas" ? "bg-blue-500 text-white" : "..."
+        }`}
+      >
+        Data Kelas
+      </Link>
     </nav>
   );
 }
