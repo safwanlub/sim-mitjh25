@@ -4,6 +4,7 @@ from rest_framework.response import Response # <-- IMPORT INI
 from rest_framework import status # <-- IMPORT INI
 from .models import Siswa, Guru, Kelas, Mapel
 from .serializers import SiswaSerializer # <-- IMPORT INI
+from .serializers import SiswaSerializer, KelasSerializer
 
 
 def get_stats(request):
@@ -24,11 +25,8 @@ def get_stats(request):
 
 @api_view(['GET']) # <-- FUNGSI SISWA
 def get_siswa_list(request):
-    # Ambil semua objek Siswa dari database
-    siswa_list = Siswa.objects.all()
-    # Gunakan "penerjemah" untuk mengubah data
+    siswa_list = Siswa.objects.all().select_related('kelas')
     serializer = SiswaSerializer(siswa_list, many=True)
-    # Kembalikan data dalam format JSON
     return Response(serializer.data)
 
 # TAMBAHKAN FUNGSI TAMBAH
