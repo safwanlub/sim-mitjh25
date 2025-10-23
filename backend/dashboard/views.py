@@ -34,22 +34,31 @@ def get_siswa_list(request):
 def add_siswa(request):
     # Ambil data 'nama' dari request body
     nama = request.data.get('nama')
+    kelas_id = request.data.get('kelas')
     
     # Validasi sederhana: pastikan nama tidak kosong
-    if not nama:
-        return Response(
-            {'error': 'Nama siswa tidak boleh kosong.'}, 
-            status=status.HTTP_400_BAD_REQUEST
-        )
+    if not nama or not kelas_id:
+        return Response({'error': 'Nama dan kelas tidak boleh kosong.'}, status=status.HTTP_400_BAD_REQUEST)
     
-    # Buat objek Siswa baru di database
-    siswa = Siswa.objects.create(nama=nama)
+    # Cari objek Kelas berdasarkan ID
+    try:
+        kelas_obj = Kelas.objects.get(id=kelas_id)
+    except Kelas.DoesNotExist:
+        return Response({'error': 'Kelas tidak ditemukan.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Buat objek Siswa dan hubungkan ke kelas
+    siswa = Siswa.objects.create(nama=nama, kelas=kelas_obj)
     
-    # Siapkan serializer buat mengembalikan data yang baru dibuat
-    serializer = SiswaSerializer(siswa, many=False)
-    
-    # Kembalikan response dengan data siswa baru dan status 201 (Created)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    # Buat data untuk dikembalikan
+    data = {
+        'id': siswa.id, 
+        'nama': siswa.nama,
+        'kelas': {
+            'id': siswa.kelas.id,
+            'display_name': str(siswa.kelas)
+        }
+    }
+    return Response(data, status=status.HTTP_201_CREATED)
     
 
 # TAMBAHKAN FUNGSI DELETE
