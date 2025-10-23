@@ -22,6 +22,15 @@ class Kelas(models.Model):
 class Siswa(models.Model):
     nama = models.CharField(max_length=100)
     kelas = models.ForeignKey(Kelas, on_delete=models.SET_NULL, null=True, blank=True)
+    nama_lengkap = models.CharField(max_length=200, blank=True)
+    tanggal_lahir = models.DateField(null=True, blank=True)
+    nama_ayah = models.CharField(max_length=100, blank=True)
+    nama_ibu = models.CharField(max_length=100, blank=True)
+    alamat = models.TextField(blank=True)
+    no_hp = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(blank=True)
+    foto = models.ImageField(upload_to='siswa_foto/', null=True, blank=True)
+    
 
     def __str__(self):
         return self.nama

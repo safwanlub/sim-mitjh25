@@ -17,7 +17,12 @@ class KelasSerializer(serializers.ModelSerializer):
 
 class SiswaSerializer(serializers.ModelSerializer):
     kelas = KelasSerializer(read_only=True)
+    def get_foto_url(self, obj):
+        request = self.context.get('request')
+        if obj.foto and hasattr(request, 'build_absolute_uri'):
+            return request.build_absolute_uri(obj.foto.url)
+        return None
 
     class Meta:
         model = Siswa
-        fields = ['id', 'nama', 'kelas']
+        fields = ['id', 'nama', 'nama_lengkap', 'tanggal_lahir', 'nama_ayah', 'nama_ibu', 'alamat', 'no_hp', 'email', 'foto', 'kelas'] 
