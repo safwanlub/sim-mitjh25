@@ -183,6 +183,7 @@ export default function SiswaPage() {
         </form>
 
         {/* TABEL DAFTAR SISWA */}
+        {/* TABEL DAFTAR SISWA */}
         <div className="bg-white shadow rounded-lg p-4">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -192,6 +193,9 @@ export default function SiswaPage() {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Nama Siswa
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Kelas
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Aksi
@@ -206,6 +210,9 @@ export default function SiswaPage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {siswa.nama}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {siswa.kelas ? siswa.kelas.display_name : "-"}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
                     <button
