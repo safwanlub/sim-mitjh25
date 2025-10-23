@@ -7,7 +7,7 @@ export default function SiswaPage() {
   // State untuk daftar siswa
   const [siswaList, setSiswaList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [formData, setFormData] = useState({ nama: "" });
+  const [formData, setFormData] = useState({ nama: "", kelas: "" }); // <-- TAMBAHKAN kelas
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingSiswa, setEditingSiswa] = useState(null);
@@ -50,7 +50,7 @@ export default function SiswaPage() {
 
       if (response.ok) {
         // Berhasil! Kosongkan form dan refresh data
-        setFormData({ nama: "" });
+        setFormData({ nama: "", kelas: "" });
         // Cara refresh yang lebih baik: panggil lagi fungsi fetch
         const fetchSiswa = async () => {
           try {
@@ -155,75 +155,128 @@ export default function SiswaPage() {
       <div>
         <h1 className="text-2xl font-bold mb-4">Data Siswa</h1>
 
-        {/* FORM UNTUK MENAMBAH SISWA */}
+        {/* FORM UNTUK MENAMBAH SISWA (DENGAN DROPODOWN KELAS) */}
         <form
           onSubmit={handleSubmit}
           className="mb-6 bg-gray-50 p-4 rounded-lg shadow"
         >
-          <div className="flex items-center space-x-4">
-            <input
-              type="text"
-              name="nama"
-              value={formData.nama}
-              onChange={(e) =>
-                setFormData({ ...formData, nama: e.target.value })
-              }
-              placeholder="Masukkan nama siswa"
-              className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Dropdown untuk memilih kelas */}
+            <div>
+              <label
+                htmlFor="kelas-select"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Pilih Kelas
+              </label>
+              <select
+                id="kelas-select"
+                name="kelas"
+                value={formData.kelas}
+                onChange={(e) =>
+                  setFormData({ ...formData, kelas: e.target.value })
+                }
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                required
+              >
+                <option value="">-- Pilih Kelas --</option>
+                {/* Ini adalah cara manual, tapi jelas. Kita bisa fetch dari API untuk lebih dinamis */}
+                <option value="13">Kelas 1 A</option>
+                <option value="14">Kelas 1 B</option>
+                <option value="16">Kelas 2 A</option>
+                <option value="17">Kelas 2 B</option>
+                <option value="19">Kelas 3 A</option>
+                <option value="20">Kelas 3 B</option>
+                <option value="21">Kelas 4 A</option>
+                <option value="22">Kelas 4 B</option>
+                <option value="23">Kelas 5 A</option>
+                <option value="24">Kelas 5 B</option>
+                <option value="25">Kelas 6 A</option>
+                <option value="26">Kelas 6 B</option>
+                {/* ... tambahkan semua kelas lainnya sesuai data di database lo ... */}
+              </select>
+            </div>
+
+            {/* Input untuk nama siswa */}
+            <div>
+              <label
+                htmlFor="nama-siswa"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Nama Siswa
+              </label>
+              <input
+                type="text"
+                id="nama-siswa"
+                name="nama"
+                value={formData.nama}
+                onChange={(e) =>
+                  setFormData({ ...formData, nama: e.target.value })
+                }
+                placeholder="Masukkan nama siswa"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="mt-4">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 disabled:bg-gray-400"
+              className="w-full md:w-auto px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 disabled:bg-gray-400"
             >
-              {isSubmitting ? "Menyimpan..." : "Simpan"}
+              {isSubmitting ? "Menyimpan..." : "Simpan Siswa"}
             </button>
           </div>
         </form>
 
         {/* TABEL DAFTAR SISWA */}
-        {/* TABEL DAFTAR SISWA */}
-        <div className="bg-white shadow rounded-lg p-4">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+
+        {/* TABEL DAFTAR SISWA DENGAN STYLE LEBIH BAIK */}
+        <div className="overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-sm text-left text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3">
                   ID
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3">
                   Nama Siswa
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3">
                   Kelas
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3">
                   Aksi
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody>
               {siswaList.map((siswa) => (
-                <tr key={siswa.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <tr
+                  key={siswa.id}
+                  className="bg-white border-b hover:bg-gray-50"
+                >
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                     {siswa.id}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 font-medium text-gray-900">
                     {siswa.nama}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 text-gray-500">
                     {siswa.kelas ? siswa.kelas.display_name : "-"}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
+                  <td className="px-6 py-4 text-right">
                     <button
                       onClick={() => handleEdit(siswa)}
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(siswa.id)}
-                      className="text-red-600 hover:text-red-900"
+                      className="font-medium text-red-600 dark:text-red-500 hover:underline"
                     >
                       Hapus
                     </button>
