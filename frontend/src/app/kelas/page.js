@@ -189,7 +189,9 @@ export default function kelasPage() {
                 setFormData({ ...formData, nama_kelas: e.target.value })
               }
               placeholder="Nama Kelas (contoh: A)"
-              className="flex-grow px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+              className="flex-grow px-4
+              py-2 border border-gray-300 rounded-md focus:ring-blue-500
+              focus:border-blue-500"
               required
             />
 

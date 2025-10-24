@@ -7,7 +7,17 @@ export default function SiswaPage() {
   // State untuk daftar siswa
   const [siswaList, setSiswaList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [formData, setFormData] = useState({ nama: "", kelas: "" }); // <-- TAMBAHKAN kelas
+  const [formData, setFormData] = useState({
+    nama: "",
+    kelas: "",
+    nama_lengkap: "",
+    tanggal_lahir: "",
+    nama_ayah: "",
+    nama_ibu: "",
+    alamat: "",
+    no_hp: "",
+    email: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingSiswa, setEditingSiswa] = useState(null);
@@ -263,6 +273,19 @@ export default function SiswaPage() {
                   </td>
                   <td className="px-6 py-4 font-medium text-gray-900">
                     {siswa.nama}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {siswa.foto_url ? (
+                      <img
+                        src={siswa.foto_url}
+                        alt={siswa.nama}
+                        className="h-10 w-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-400 text-xs">No Photo</span>
+                      </div>
+                    )}
                   </td>
                   <td className="px-6 py-4 text-gray-500">
                     {siswa.kelas ? siswa.kelas.display_name : "-"}
