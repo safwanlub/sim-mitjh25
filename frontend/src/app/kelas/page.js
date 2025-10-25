@@ -5,22 +5,23 @@ import Layout from "@/components/Layout";
 
 export default function kelasPage() {
   // State untuk daftar kelas
-  const [kelasList, setkelasList] = useState([]);
+  const [kelasList, setKelasList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [formData, setFormData] = useState({ nama: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingkelas, setEditingkelas] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   // Effect untuk mengambil data kelas saat halaman dimuat
   useEffect(() => {
-    const fetchkelas = async () => {
+    const fetchKelas = async () => {
       try {
         const response = await fetch(
           "http://127.0.0.1:8000/api/dashboard/kelas/"
         );
         const data = await response.json();
-        setkelasList(data);
+        setKelasList(data);
       } catch (error) {
         console.error("Gagal mengambil data kelas:", error);
       } finally {
@@ -28,8 +29,8 @@ export default function kelasPage() {
       }
     };
 
-    fetchkelas();
-  }, []);
+    fetchKelas();
+  }, [refreshTrigger]);
 
   // Fungsi untuk menghandle submit form
   const handleSubmit = async (event) => {
@@ -73,6 +74,7 @@ export default function kelasPage() {
     } finally {
       setIsSubmitting(false);
     }
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   // TAMBAHKAN FUNGSI BARU UNTUK MENGHAPUS DATA
@@ -103,6 +105,7 @@ export default function kelasPage() {
     } catch (error) {
       alert("Gagal menghapus kelas. Cek koneksi.");
     }
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   // TAMBAHKAN FUNGSI BARU UNTUK MENGHANDLE EDIT
@@ -144,6 +147,7 @@ export default function kelasPage() {
     } finally {
       setIsSubmitting(false);
     }
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   if (isLoading) {

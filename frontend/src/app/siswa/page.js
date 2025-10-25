@@ -255,6 +255,9 @@ export default function SiswaPage() {
                   Nama Siswa
                 </th>
                 <th scope="col" className="px-6 py-3">
+                  Photo
+                </th>
+                <th scope="col" className="px-6 py-3">
                   Kelas
                 </th>
                 <th scope="col" className="px-6 py-3">
